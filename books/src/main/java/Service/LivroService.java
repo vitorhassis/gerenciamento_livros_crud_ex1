@@ -6,21 +6,25 @@ import Repository.LivroRepository;
 import java.util.List;
 
 public class LivroService {
-    private final LivroRepository _repository;
+    private final LivroRepository repository;
 
     public LivroService(LivroRepository livroRepository){
-        _repository = livroRepository;
+        repository = livroRepository;
     }
 
-    public Livro Adicionar(Livro livro) {
-        return _repository.save(livro);
+    public Livro adicionar(Livro livro) {
+        return repository.save(livro);
     }
 
-    public List<Livro> Listar () {
-        return _repository.findAll();
+    public List<Livro> listar () {
+        return repository.findAll();
     }
 
-    public void DeletarPorId(Long id){
-        _repository.deleteById(id);
+    public Livro listarPorId(Long id){
+        return repository.findById(id).get();
+    }
+
+    public void deletarPorId(Long id){
+        repository.deleteById(id);
     }
 }
