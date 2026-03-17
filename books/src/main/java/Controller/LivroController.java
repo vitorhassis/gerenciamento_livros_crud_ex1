@@ -31,7 +31,7 @@ public class LivroController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable long id) {
+    public void deletarPorId(@PathVariable long id) {
         service.deletarPorId(id);
     }
 }
