@@ -4,7 +4,9 @@ import Models.Livro;
 import Repository.LivroRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class LivroService {
     private final LivroRepository repository;
 
@@ -20,8 +22,8 @@ public class LivroService {
         return repository.findAll();
     }
 
-    public Livro listarPorId(Long id){
-        return repository.findById(id).get();
+    public Optional<Livro> buscarPorId(Long id){
+        return repository.findById(id);
     }
 
     public void deletarPorId(Long id){

@@ -2,9 +2,13 @@ package Controller;
 
 import Models.Livro;
 import Service.LivroService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/livros")
@@ -16,22 +20,28 @@ public class LivroController {
     }
 
     @PostMapping
-    public Livro salvar(@RequestBody Livro livro){
-        return service.adicionar(livro);
+    public ResponseEntity<Livro> salvar(@RequestBody Livro livro){
+        Livro request =  service.adicionar(livro);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}").buildAndExpand(request.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(request);
     }
 
     @GetMapping
-    public List<Livro> listar(){
-        return service.listar();
+    public ResponseEntity<List<Livro>> listar(){
+        List<Livro> livros = service.listar();
+        return ResponseEntity.ok(livros);
     }
 
     @GetMapping("/{id}")
-    public Livro buscarPorId(@PathVariable Long id){
-        return service.listarPorId(id);
+    public Optional<Livro> buscarPorId(@PathVariable Long id){
+        return service.buscarPorId(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deletarPorId(@PathVariable long id) {
+    public ResponseEntity<?> deletarPorId(@PathVariable long id) {
         service.deletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }
