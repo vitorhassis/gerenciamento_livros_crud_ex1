@@ -45,8 +45,7 @@ public class LivroController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarPorId(@PathVariable long id) {
-
+    public ResponseEntity<Void> deletarPorId(@PathVariable long id) {
         Optional<Livro> livro = service.buscarPorId(id);
 
         /*como o metodo buscarporid retorna um optional (pode existir ou nao), o '.isEmpty'
