@@ -35,13 +35,28 @@ public class LivroController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Livro> buscarPorId(@PathVariable Long id){
-        return service.buscarPorId(id);
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id){
+        Optional<Livro> livro =  service.buscarPorId(id);
+
+        if(livro.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(livro.get());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarPorId(@PathVariable long id) {
+
+        Optional<Livro> livro = service.buscarPorId(id);
+
+        /*como o metodo buscarporid retorna um optional (pode existir ou nao), o '.isEmpty'
+        é usado para verificar se nao ha valor dentro, ou seja, nesse caso, se nao encontrou o livro*/
+
+        if(livro.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         service.deletarPorId(id);
-        return ResponseEntity.noContent().build();
+        return  ResponseEntity.noContent().build();
     }
 }
